@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiEye, FiHeart, FiStar } from "react-icons/fi";
 import ProductCardHover from "./product-card-hover";
-import { exploreProducts as products, type Product } from "@/lib/products";
+import { type Product, exploreProducts } from "@/lib/products";
 
-function ProductCard({ product }: { product: Product }) {
-  const detailsHref = `/products/catalog/${product.id}`;
+type ProductCollection = "catalog" | "best-selling";
+
+function ProductCard({ product, collection }: { product: Product; collection: ProductCollection }) {
+  const detailsHref = `/products/${collection}/${product.id}`;
 
   return (
     <ProductCardHover>
@@ -56,25 +58,43 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-export default function ExploreProducts({ showViewAll = true }: { showViewAll?: boolean }) {
+type ExploreProductsProps = {
+  showViewAll?: boolean;
+  products?: Product[];
+  heading?: string;
+  eyebrow?: string;
+  description?: string;
+  collection?: ProductCollection;
+};
+
+export default function ExploreProducts({
+  showViewAll = true,
+  products = exploreProducts,
+  heading = "Explore Our Products",
+  eyebrow = "Our Products",
+  description = "Browse popular picks across electronics, sports, health, and everyday essentials.",
+  collection = "catalog",
+}: ExploreProductsProps) {
+  const headingId = collection === "catalog" ? "explore-products-heading" : "best-selling-products-heading";
+
   return (
-    <section className="w-full bg-white py-16 sm:py-20" aria-labelledby="explore-products-heading">
+    <section className="w-full bg-white py-16 sm:py-20" aria-labelledby={headingId}>
       <div className="mx-auto">
         <div className="mb-8">
           <div className="mb-4 flex items-center gap-3">
             <span className="h-7 w-3 rounded-sm bg-[#db4444]" />
-            <span className="text-sm font-semibold text-[#db4444]">Our Products</span>
+            <span className="text-sm font-semibold text-[#db4444]">{eyebrow}</span>
           </div>
-          <h2 id="explore-products-heading" className="text-3xl font-semibold tracking-tight text-black sm:text-4xl">
-            Explore Our Products
+          <h2 id={headingId} className="text-3xl font-semibold tracking-tight text-black sm:text-4xl">
+            {heading}
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base">
-            Browse popular picks across electronics, sports, health, and everyday essentials.
+            {description}
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => <ProductCard key={product.id} product={product} />)}
+          {products.map((product) => <ProductCard key={product.id} product={product} collection={collection} />)}
         </div>
 
         {showViewAll && (

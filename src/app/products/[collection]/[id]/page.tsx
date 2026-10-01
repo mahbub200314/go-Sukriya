@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { exploreProducts, flashSaleProducts } from "@/lib/products";
+import { bestSellingProduct, exploreProducts, flashSaleProducts } from "@/lib/products";
 
 type ProductDetailsPageProps = {
   params: Promise<{ collection: string; id: string }>;
@@ -13,7 +13,9 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
     ? flashSaleProducts
     : collection === "catalog"
       ? exploreProducts
-      : [];
+      : collection === "best-selling"
+        ? bestSellingProduct
+        : [];
   const product = source.find((item) => item.id === Number(id));
 
   if (!product) notFound();

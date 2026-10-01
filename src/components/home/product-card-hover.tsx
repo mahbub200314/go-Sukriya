@@ -15,7 +15,7 @@ export default function ProductCardHover({ children }: ProductCardHoverProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP(() => {
     const addToCart = cardRef.current?.querySelector(".add-to-cart");
-    gsap.set(addToCart, { autoAlpha: 0, y: 44 });
+    if (addToCart) gsap.set(addToCart, { autoAlpha: 0, y: 44 });
   }, { scope: cardRef });
 
   const handlePointerEnter = contextSafe(() => {

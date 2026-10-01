@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import Button from "@/components/ui/button";
-
+import { FaCircleDot } from "react-icons/fa6";
 gsap.registerPlugin(useGSAP);
 
 const slides = [
@@ -80,7 +80,7 @@ export default function HeroSlider() {
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
 
       <div ref={contentRef} className="max-w-xl">
-        <p className="mb-5 text-sm font-semibold tracking-wide text-white/80">{slide.eyebrow}</p>
+        <p className="mb-5 text-md font-semibold tracking-wide text-white/80 flex items-center gap-2"> <FaCircleDot className="text-[1.2rem]  text-primary"/> {slide.eyebrow}</p>
         <h1 className="text-4xl font-bold leading-tight sm:text-5xl">{slide.title}</h1>
         <p className="mt-5 max-w-lg text-base leading-7 text-white/80">{slide.description}</p>
         <div className="mt-8">
